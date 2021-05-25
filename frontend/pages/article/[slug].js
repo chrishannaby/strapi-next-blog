@@ -5,6 +5,7 @@ import Layout from "../../components/layout";
 import Image from "../../components/image";
 import Seo from "../../components/seo";
 import { getStrapiMedia } from "../../lib/media";
+import { useRouter } from "next/router";
 
 const Article = ({ article, categories }) => {
   const imageUrl = getStrapiMedia(article.image);
@@ -15,6 +16,12 @@ const Article = ({ article, categories }) => {
     shareImage: article.image,
     article: true,
   };
+
+  const router = useRouter();
+
+  if (router.isFallback) {
+    return <h1>Loading</h1>;
+  }
 
   return (
     <Layout categories={categories}>
@@ -62,14 +69,17 @@ const Article = ({ article, categories }) => {
 
 export async function getStaticPaths() {
   const articles = await fetchAPI("/articles");
-
-  return {
-    paths: articles.map((article) => ({
+  const paths = articles
+    .filter((article) => article.isPopular)
+    .map((article) => ({
       params: {
         slug: article.slug,
       },
-    })),
-    fallback: false,
+    }));
+
+  return {
+    paths,
+    fallback: true,
   };
 }
 
@@ -81,7 +91,6 @@ export async function getStaticProps({ params }) {
 
   return {
     props: { article: articles[0], categories },
-    revalidate: 1,
   };
 }
 
