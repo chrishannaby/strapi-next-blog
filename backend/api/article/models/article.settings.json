@@ -61,7 +61,7 @@
       "via": "articles",
       "model": "writer"
     },
-    "popularArticle": {
+    "isPopular": {
       "type": "boolean"
     }
   }

@@ -3,11 +3,16 @@ import Moment from "react-moment";
 import { fetchAPI } from "../../lib/api";
 import Layout from "../../components/layout";
 import Image from "../../components/image";
-import Seo from "../../components/seo";
 import { getStrapiMedia } from "../../lib/media";
 import { useRouter } from "next/router";
 
 const Article = ({ article, categories }) => {
+  const router = useRouter();
+
+  if (router.isFallback) {
+    return <h1>Loading</h1>;
+  }
+
   const imageUrl = getStrapiMedia(article.image);
 
   const seo = {
@@ -17,15 +22,8 @@ const Article = ({ article, categories }) => {
     article: true,
   };
 
-  const router = useRouter();
-
-  if (router.isFallback) {
-    return <h1>Loading</h1>;
-  }
-
   return (
     <Layout categories={categories}>
-      <Seo seo={seo} />
       <div
         id="banner"
         className="uk-height-medium uk-flex uk-flex-center uk-flex-middle uk-background-cover uk-light uk-padding uk-margin"
