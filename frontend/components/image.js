@@ -1,7 +1,7 @@
 import { getStrapiMedia } from "../lib/media";
 import Image from "next/image";
 
-const StrapiImage = ({ image, style, className }) => {
+const StrapiImage = ({ image, className, width, height }) => {
   const imageUrl = getStrapiMedia(image);
 
   return (
@@ -9,6 +9,8 @@ const StrapiImage = ({ image, style, className }) => {
       src={imageUrl}
       alt={image.alternativeText || image.name}
       className={className}
+      width={width}
+      height={height}
     />
   );
 };

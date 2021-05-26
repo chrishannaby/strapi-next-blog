@@ -26,7 +26,9 @@ const Article = ({ article }) => {
           {article.author.picture && (
             <StrapiImage
               image={article.author.picture}
-              className="rounded-full h-10 w-10"
+              className="rounded-full"
+              width={40}
+              height={40}
             />
           )}
           <p>{article.author.name}</p>
