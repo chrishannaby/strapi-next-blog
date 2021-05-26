@@ -1,79 +1,54 @@
 import ReactMarkdown from "react-markdown";
 import Moment from "react-moment";
-import { fetchAPI } from "../../lib/api";
-import Layout from "../../components/layout";
+import { fetchAPI, fetchLatestArticles } from "../../lib/api";
 import Image from "../../components/image";
-import { getStrapiMedia } from "../../lib/media";
 import { useRouter } from "next/router";
+import rehypeRaw from "rehype-raw";
 
-const Article = ({ article, categories }) => {
-  const router = useRouter();
-
-  if (router.isFallback) {
-    return <h1>Loading</h1>;
+const Article = ({ article }) => {
+  if (!article) {
+    return (
+      <div className="flex flex-col items-center">
+        <div className="bg-gray-300 rounded h-4 w-24" />
+        <div className="mt-2 bg-gray-300 rounded h-12 w-96" />
+        <div className="mt-4 bg-gray-300 rounded h-8 w-24" />
+      </div>
+    );
   }
 
-  const imageUrl = getStrapiMedia(article.image);
-
-  const seo = {
-    metaTitle: article.title,
-    metaDescription: article.description,
-    shareImage: article.image,
-    article: true,
-  };
-
   return (
-    <Layout categories={categories}>
-      <div
-        id="banner"
-        className="uk-height-medium uk-flex uk-flex-center uk-flex-middle uk-background-cover uk-light uk-padding uk-margin"
-        data-src={imageUrl}
-        data-srcset={imageUrl}
-        data-uk-img
-      >
-        <h1>{article.title}</h1>
-      </div>
-      <div className="uk-section">
-        <div className="uk-container uk-container-small">
-          <ReactMarkdown source={article.content} escapeHtml={false} />
-          <hr className="uk-divider-small" />
-          <div className="uk-grid-small uk-flex-left" data-uk-grid="true">
-            <div>
-              {article.author.picture && (
-                <Image
-                  image={article.author.picture}
-                  style={{
-                    position: "static",
-                    borderRadius: "50%",
-                    height: 30,
-                  }}
-                />
-              )}
-            </div>
-            <div className="uk-width-expand">
-              <p className="uk-margin-remove-bottom">
-                By {article.author.name}
-              </p>
-              <p className="uk-text-meta uk-margin-remove-top">
-                <Moment format="MMM Do YYYY">{article.published_at}</Moment>
-              </p>
-            </div>
-          </div>
+    <>
+      <div className="flex flex-col items-center pb-12 border-b mb-12">
+        <p className="text-gray-500">
+          <Moment format="MMM Do YYYY">{article.publishedAt}</Moment>
+        </p>
+        <h1 className="text-5xl font-bold">{article.title}</h1>
+        <div className="mt-6 flex items-center space-x-4">
+          {article.author.picture && (
+            <Image
+              image={article.author.picture}
+              className="rounded-full h-10 w-10"
+            />
+          )}
+          <p>{article.author.name}</p>
         </div>
       </div>
-    </Layout>
+      <ReactMarkdown
+        className="prose"
+        children={article.content}
+        rehypePlugins={[rehypeRaw]}
+      />
+    </>
   );
 };
 
 export async function getStaticPaths() {
-  const articles = await fetchAPI("/articles");
-  const paths = articles
-    .filter((article) => article.isPopular)
-    .map((article) => ({
-      params: {
-        slug: article.slug,
-      },
-    }));
+  const articles = await fetchLatestArticles();
+  const paths = articles.map((article) => ({
+    params: {
+      slug: article.slug,
+    },
+  }));
 
   return {
     paths,
@@ -85,10 +60,9 @@ export async function getStaticProps({ params }) {
   const articles = await fetchAPI(
     `/articles?slug=${params.slug}&status=published`
   );
-  const categories = await fetchAPI("/categories");
 
   return {
-    props: { article: articles[0], categories },
+    props: { article: articles[0] },
   };
 }
 

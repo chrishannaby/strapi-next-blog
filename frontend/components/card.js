@@ -1,26 +1,28 @@
 import React from "react";
 import Link from "next/link";
-import Image from "./image";
+import Moment from "react-moment";
 
 const Card = ({ article }) => {
   return (
-    <Link as={`/article/${article.slug}`} href="/article/[id]">
-      <a className="uk-link-reset">
-        <div className="uk-card uk-card-muted">
-          <div className="uk-card-media-top">
-            <Image image={article.image} />
-          </div>
-          <div className="uk-card-body">
-            <p id="category" className="uk-text-uppercase">
-              {article.category.name}
-            </p>
-            <p id="title" className="uk-text-large">
-              {article.title}
-            </p>
-          </div>
-        </div>
-      </a>
-    </Link>
+    <div className="py-8">
+      <p className="text-gray-500">
+        <Moment format="MMM Do YYYY">{article.publishedAt}</Moment>
+      </p>
+      <Link href={`/article/${article.slug}`}>
+        <a>
+          <h2 id="title" className="mt-2 font-bold text-3xl">
+            {article.title}
+          </h2>
+        </a>
+      </Link>
+      <p className="mt-1 uppercase text-sm text-blue-400">
+        {article.category.name}
+      </p>
+      <p className="py-5 tracking-wide text-gray-600">{article.description}</p>
+      <Link href={`/article/${article.slug}`}>
+        <a className="text-blue-400 font-medium">Read more →</a>
+      </Link>
+    </div>
   );
 };
 

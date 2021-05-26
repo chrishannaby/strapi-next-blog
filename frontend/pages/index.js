@@ -1,31 +1,26 @@
-import React from "react";
 import Articles from "../components/articles";
-import Layout from "../components/layout";
-import { fetchAPI } from "../lib/api";
+import Link from "next/link";
+import { fetchLatestArticles } from "../lib/api";
 
-const Home = ({ articles, categories, homepage }) => {
+const Home = ({ articles }) => {
   return (
-    <Layout categories={categories}>
-      <div className="uk-section">
-        <div className="uk-container uk-container-large">
-          <h1>{homepage.hero.title}</h1>
-          <Articles articles={articles} />
-        </div>
+    <>
+      <h1 className="text-5xl font-bold mb-12">Latest</h1>
+      <Articles articles={articles} />
+      <div className="mt-6">
+        <Link href="/all">
+          <a className="text-blue-400 font-medium">All Posts →</a>
+        </Link>
       </div>
-    </Layout>
+    </>
   );
 };
 
 export async function getStaticProps() {
-  // Run API calls in parallel
-  const [articles, categories, homepage] = await Promise.all([
-    fetchAPI("/articles?status=published"),
-    fetchAPI("/categories"),
-    fetchAPI("/homepage"),
-  ]);
+  const articles = await fetchLatestArticles();
 
   return {
-    props: { articles, categories, homepage },
+    props: { articles },
   };
 }
 

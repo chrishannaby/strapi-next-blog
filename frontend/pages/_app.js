@@ -1,28 +1,24 @@
 import Head from "next/head";
-import "../assets/css/style.css";
+import Link from "next/link";
+import "tailwindcss/tailwind.css";
 
 const MyApp = ({ Component, pageProps }) => {
   return (
     <>
       <Head>
-        <link
-          rel="shortcut icon"
-          href="https://app.netlify.com/favicon-32x32.png"
-        />
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Staatliches"
-        />
-        <link
-          rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/uikit@3.2.3/dist/css/uikit.min.css"
-        />
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.2.0/js/uikit.min.js" />
-        <script src="https://cdn.jsdelivr.net/npm/uikit@3.2.3/dist/js/uikit-icons.min.js" />
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.2.0/js/uikit.js" />
+        <link rel="icon" href="https://app.netlify.com/favicon-32x32.png" />
         <title>Strapi Blog</title>
       </Head>
-      <Component {...pageProps} />
+      <main className="max-w-3xl mx-auto px-3 my-12 antialiased text-gray-900">
+        <Link href="/">
+          <a>
+            <h1 className="py-2 text-3xl pb-12 font-bold hover:text-blue-500">
+              Strapi Blog
+            </h1>
+          </a>
+        </Link>
+        <Component {...pageProps} />
+      </main>
     </>
   );
 };
