@@ -1,8 +1,7 @@
 import ReactMarkdown from "react-markdown";
 import Moment from "react-moment";
 import { fetchAPI, fetchLatestArticles } from "../../lib/api";
-import Image from "../../components/image";
-import { useRouter } from "next/router";
+import StrapiImage from "../../components/image";
 import rehypeRaw from "rehype-raw";
 
 const Article = ({ article }) => {
@@ -25,7 +24,7 @@ const Article = ({ article }) => {
         <h1 className="text-5xl font-bold">{article.title}</h1>
         <div className="mt-6 flex items-center space-x-4">
           {article.author.picture && (
-            <Image
+            <StrapiImage
               image={article.author.picture}
               className="rounded-full h-10 w-10"
             />
