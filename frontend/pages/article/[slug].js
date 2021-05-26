@@ -61,9 +61,15 @@ export async function getStaticProps({ params }) {
   const articles = await fetchAPI(
     `/articles?slug=${params.slug}&status=published`
   );
+  const article = articles[0];
+  if (!article) {
+    return {
+      notFound: true,
+    };
+  }
 
   return {
-    props: { article: articles[0] },
+    props: { article },
   };
 }
 
