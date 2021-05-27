@@ -9,7 +9,7 @@ const Article = ({ article }) => {
     return (
       <div className="flex flex-col items-center">
         <div className="bg-gray-300 rounded h-4 w-24" />
-        <div className="mt-2 bg-gray-300 rounded h-12 w-96" />
+        <div className="mt-2 bg-gray-300 rounded h-12 w-98" />
         <div className="mt-4 bg-gray-300 rounded h-8 w-24" />
       </div>
     );
