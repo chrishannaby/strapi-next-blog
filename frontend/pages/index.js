@@ -5,7 +5,9 @@ import { fetchLatestArticles } from "../lib/api";
 const Home = ({ articles }) => {
   return (
     <>
-      <h1 className="text-5xl font-bold mb-12">Latest Posts, Statically Rendered</h1>
+      <h1 className="text-5xl font-bold mb-12">
+        Latest Posts, Statically Rendered
+      </h1>
       <Articles articles={articles} />
       <div className="mt-6">
         <Link href="/all">

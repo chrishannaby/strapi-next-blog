@@ -9,7 +9,7 @@ const MyApp = ({ Component, pageProps }) => {
         <link rel="icon" href="https://app.netlify.com/favicon-32x32.png" />
         <title>Strapi Blog</title>
       </Head>
-      <main className="max-w-3xl mx-auto px-3 my-12 antialiased text-gray-900">
+      <main className="max-w-3xl mx-auto px-4 my-12 antialiased text-gray-900">
         <Link href="/">
           <a>
             <h1 className="py-2 text-3xl pb-12 font-bold hover:text-blue-500">

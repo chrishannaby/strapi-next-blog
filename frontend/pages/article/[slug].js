@@ -17,11 +17,13 @@ const Article = ({ article }) => {
 
   return (
     <>
-      <div className="flex flex-col items-center pb-12 border-b mb-12">
+      <div className="flex flex-col items-start sm:items-center pb-12 border-b mb-12">
         <p className="text-gray-500">
           <Moment format="MMM Do YYYY">{article.publishedAt}</Moment>
         </p>
-        <h1 className="text-5xl font-bold">{article.title}</h1>
+        <h1 className="text-5xl font-bold mt-2 sm:text-center">
+          {article.title}
+        </h1>
         <div className="mt-6 flex items-center space-x-4">
           {article.author.picture && (
             <StrapiImage
